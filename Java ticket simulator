@@ -1,0 +1,123 @@
+import java.util.Scanner;
+
+public class TicketMachine {
+    // The price of a ticket from this machine
+    private int price;
+    // The total amount of money entered by customers
+    private int total;
+    // The current balance of money inserted
+    private int balance;
+
+    // Constructor to initialize the ticket machine with a ticket price
+    public TicketMachine(int ticketPrice) {
+        price = ticketPrice;
+        total = 0;
+        balance = 0;
+    }
+
+    /**
+     * Insert money into the machine
+     * @param amount The amount of money inserted by the customer
+     */
+    public void insertMoney(int amount) {
+        if (amount > 0) {
+            balance = balance + amount;
+            System.out.println("You have inserted: " + amount + " cents.");
+        } else {
+            System.out.println("Please insert a positive amount.");
+        }
+    }
+
+    /**
+     * Print a ticket if enough money has been inserted, and 
+     * reduce the current balance by the ticket price. Print
+     * an error message if more money is required.
+     */
+    public void printTicket() {
+        if (balance >= price) {
+            // Simulate the printing of a ticket
+            System.out.println("##################");
+            System.out.println("# The Eclipse Line");
+            System.out.println("# Ticket");
+            System.out.println("# " + price + " cents");
+            System.out.println("##################");
+            System.out.println();
+
+            // Update the total collected with the price
+            total = total + price;
+            // Reduce the balance by the price
+            balance = balance - price;
+
+            System.out.println("Ticket printed. Remaining balance: " + balance + " cents.");
+        } else {
+            // Print an error message if more money is required
+            System.out.println("You must insert at least: " + (price - balance) + " more cents.");
+        }
+    }
+
+    /**
+     * Get the total money collected by the machine
+     * @return Total money collected
+     */
+    public int getTotal() {
+        return total;
+    }
+
+    /**
+     * Get the current balance
+     * @return Current balance
+     */
+    public int getBalance() {
+        return balance;
+    }
+
+    // Main method for testing the TicketMachine class
+    public static void main(String[] args) {
+        // Create a TicketMachine with a ticket price of 50 cents
+        TicketMachine machine = new TicketMachine(50);
+
+        // Use a Scanner for user input
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Welcome to the Ticket Machine!");
+        boolean keepRunning = true;
+
+        while (keepRunning) {
+            System.out.println("\nOptions:");
+            System.out.println("1. Insert Money");
+            System.out.println("2. Print Ticket");
+            System.out.println("3. Check Total Collected");
+            System.out.println("4. Check Balance");
+            System.out.println("5. Exit");
+            System.out.print("Enter your choice: ");
+            int choice = scanner.nextInt();
+
+            switch (choice) {
+                case 1: // Insert Money
+                    System.out.print("Enter the amount to insert (in cents): ");
+                    int amount = scanner.nextInt();
+                    machine.insertMoney(amount);
+                    break;
+                case 2: // Print Ticket
+                    machine.printTicket();
+                    break;
+                case 3: // Check Total Collected
+                    System.out.println("Total collected: " + machine.getTotal() + " cents.");
+                    break;
+                case 4: // Check Balance
+                    System.out.println("Current balance: " + machine.getBalance() + " cents.");
+                    break;
+                case 5: // Exit
+                    System.out.println("Exiting the Ticket Machine. Goodbye!");
+                    keepRunning = false;
+                    break;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+        }
+
+        // Close the scanner to release resources
+        scanner.close();
+    }
+}
+
